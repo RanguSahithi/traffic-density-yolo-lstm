@@ -25,3 +25,7 @@ UA-DETRAC dataset
 - Vehicle count
 - Density classification
 - Future predictions
+- ## 📸 Output Screenshots
+
+### Vehicle Detection
+![Output](output1.png)
