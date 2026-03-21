@@ -1,1 +1,8 @@
-libgl1
+# System dependencies for Pillow and other image processing
+zlib1g-dev
+libjpeg-dev
+libfreetype6-dev
+liblcms2-dev
+libwebp-dev
+tcl-dev
+tk-dev
