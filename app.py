@@ -12,5 +12,16 @@ if uploaded_file:
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
+    # Fake density calculation (for demo)
+    density = np.mean(gray)
+
     st.image(frame, channels="BGR")
-    st.write("Image loaded successfully ✅")
+
+    if density < 85:
+        level = "Low Traffic 🟢"
+    elif density < 170:
+        level = "Medium Traffic 🟡"
+    else:
+        level = "High Traffic 🔴"
+
+    st.write(f"Traffic Level: {level}")
