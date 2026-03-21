@@ -25,15 +25,20 @@ if uploaded_file is not None:
     # Convert to HSV
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    # Road color detection
+    # Detect road-like colors (gray/black)
     lower_gray = np.array([0, 0, 50])
     upper_gray = np.array([180, 50, 200])
     mask = cv2.inRange(hsv, lower_gray, upper_gray)
     road_pixels = np.sum(mask > 0)
 
-    # 🚨 VALIDATION
-    if road_pixels < 5000:
-        st.error("❌ Not a traffic image. Please upload a road image.")
+    # Calculate ratios
+    total_pixels = frame.shape[0] * frame.shape[1]
+    road_ratio = road_pixels / total_pixels
+    edge_ratio = edge_count / total_pixels
+
+    # 🚨 Strong validation
+    if road_ratio < 0.15 or edge_ratio < 0.01:
+        st.error("❌ Not a traffic image. Please upload a proper road image.")
     else:
         if edge_count < 5000:
             level = "Low Traffic 🟢"
