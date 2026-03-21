@@ -15,7 +15,7 @@ blinker>=1.0.0,<2
 cachetools>=4.0,<6
 click>=7.0,<9
 packaging>=16.8,<24
-pillow==9.5.0
+pillow>=10.3.0
 protobuf>=3.20,<5
 pyarrow>=7.0
 requests>=2.27,<3
