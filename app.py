@@ -1,27 +1,25 @@
-import streamlit as st
-import cv2
-import numpy as np
+# Convert to grayscale
+gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-st.title("🚦 Traffic Density Detection (Demo)")
+# Blur
+blur = cv2.GaussianBlur(gray, (5, 5), 0)
 
-uploaded_file = st.file_uploader("Upload Image", type=["jpg","png","jpeg"])
+# Edge detection
+edges = cv2.Canny(blur, 50, 150)
 
-if uploaded_file:
-    file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
-    frame = cv2.imdecode(file_bytes, 1)
+edge_count = np.sum(edges > 0)
 
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+st.image(frame, channels="BGR")
 
-    # Fake density calculation (for demo)
-    density = np.mean(gray)
-
-    st.image(frame, channels="BGR")
-
-    if density < 85:
+# 🚨 Check if it's even a traffic-like image
+if edge_count < 1000:
+    st.error("❌ Not a traffic image. Please upload a road/vehicle image.")
+else:
+    if edge_count < 5000:
         level = "Low Traffic 🟢"
-    elif density < 170:
+    elif edge_count < 15000:
         level = "Medium Traffic 🟡"
     else:
         level = "High Traffic 🔴"
 
-    st.write(f"Traffic Level: {level}")
+    st.success(f"Traffic Level: {level}")
